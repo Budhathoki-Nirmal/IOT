@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.iotagro">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcherapp"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.IotAgro">
+        <activity android:name=".DiseasePlant"></activity>
+        <activity android:name=".Automatic" />
+        <activity android:name=".Manual" />
+<!--        <activity android:name=".MainActivity2" />-->
+        <activity android:name=".Filter" />
+<!--        <activity android:name=".Bchart" />-->
+<!--        <activity android:name=".chart" />-->
+        <activity android:name=".DataTable" />
+        <activity android:name=".Setting" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

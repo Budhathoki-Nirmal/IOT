@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "893794303591",
+    "firebase_url": "https://fir-7ed03.firebaseio.com",
+    "project_id": "fir-7ed03",
+    "storage_bucket": "fir-7ed03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893794303591:android:0061dc377e8177acbe9ec2",
+        "android_client_info": {
+          "package_name": "com.example.iotagro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893794303591-f6mfhp0ts6lo98imcridps0t83orv66d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTuRzebXl59QlhhGLqM3Xl7eW1joMkr5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893794303591-f6mfhp0ts6lo98imcridps0t83orv66d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
