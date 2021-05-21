@@ -34,7 +34,7 @@ import java.util.Locale;
 
 public class Filter extends AppCompatActivity{
     RecyclerView recycler_view;
-    PaymentAdapter adapter;
+    TableAdapter adapter;
     List<Model> list;
     LinearLayoutManager manager;
     DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
@@ -181,7 +181,7 @@ public class Filter extends AppCompatActivity{
             Model data = item.getValue(Model.class);
             list.add(data);
         }
-        adapter = new PaymentAdapter(Filter.this, list);
+        adapter = new TableAdapter(Filter.this, list);
         recycler_view.setAdapter(adapter);
     }
 

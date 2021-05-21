@@ -42,7 +42,7 @@ import java.util.Objects;
 
 public class DataTable extends AppCompatActivity{
     RecyclerView recycler_view;
-    PaymentAdapter adapter;
+    TableAdapter adapter;
     List<Model> list;
     LinearLayoutManager manager;
 //    EditText eT1;
@@ -81,7 +81,7 @@ public class DataTable extends AppCompatActivity{
                             list.add(new Model(Date,Temperature,Humidity,Soil_Moisture));
                         }
                         Collections.reverse(list);
-                        adapter=new PaymentAdapter(DataTable.this,list);
+                        adapter=new TableAdapter(DataTable.this,list);
                         recycler_view.setAdapter(adapter);
 //
                     }

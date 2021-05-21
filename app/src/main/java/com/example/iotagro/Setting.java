@@ -19,19 +19,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Setting extends AppCompatActivity {
 
-    Button btnManual, btnAutomatic;
-//    RadioButton maize;
-//    String t1;
-//    Integer t;
-//
-//    FirebaseDatabase mDatabase;
-//    DatabaseReference ref;
+    Button btnManual, btnAutomatic,btnInformation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         btnManual=findViewById(R.id.btnManual);
         btnAutomatic=findViewById(R.id.btnAutomatic);
+        btnInformation=findViewById(R.id.btnInformation);
 
         btnManual.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +41,10 @@ public class Setting extends AppCompatActivity {
                 openActivityAutomatic();
             }
         });
+        btnInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {openActivityInformation(); }
+        });
 
     }
 
@@ -55,6 +54,10 @@ public class Setting extends AppCompatActivity {
     }
     private void openActivityAutomatic() {
         Intent intent=new Intent(this, Automatic.class);
+        startActivity(intent);
+    }
+    private void openActivityInformation() {
+        Intent intent = new Intent(this, Information.class);
         startActivity(intent);
     }
 

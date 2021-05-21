@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcherapp"
         android:supportsRtl="true"
         android:theme="@style/Theme.IotAgro">
-        <activity android:name=".DiseasePlant"></activity>
+        <activity android:name=".Addplant"></activity>
+        <activity android:name=".Information" />
+        <activity android:name=".DiseasePlant" />
         <activity android:name=".Automatic" />
-        <activity android:name=".Manual" />
-<!--        <activity android:name=".MainActivity2" />-->
-        <activity android:name=".Filter" />
-<!--        <activity android:name=".Bchart" />-->
-<!--        <activity android:name=".chart" />-->
+        <activity android:name=".Manual" /> <!-- <activity android:name=".MainActivity2" /> -->
+        <activity android:name=".Filter" /> <!-- <activity android:name=".Bchart" /> -->
+        <!-- <activity android:name=".chart" /> -->
         <activity android:name=".DataTable" />
         <activity android:name=".Setting" />
         <activity android:name=".MainActivity">

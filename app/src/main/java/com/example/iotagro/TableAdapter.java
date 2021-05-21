@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHolder>implements Filterable {
+public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>implements Filterable {
 
     Context context;
-    List<Model> payment_list;
+    List<Model> table_list;
     List<Model> search_list;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -33,10 +33,10 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
         }
     }
 
-    public PaymentAdapter(Context context,List<Model> payment_list) {
+    public TableAdapter(Context context,List<Model> table_list) {
         this.context = context;
-        this.payment_list=payment_list;
-        search_list=new ArrayList<>(payment_list);
+        this.table_list=table_list;
+        search_list=new ArrayList<>(table_list);
     }
 
     @NonNull
@@ -48,8 +48,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (payment_list!=null && payment_list.size()>0){
-            Model model=payment_list.get(position);
+        if (table_list!=null && table_list.size()>0){
+            Model model=table_list.get(position);
             holder.date_tv.setText(model.getDate());
             holder.temp_tv.setText(model.getTemp());
             holder.hum_tv.setText(model.getHum());
@@ -63,15 +63,15 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return payment_list.size();
+        return table_list.size();
     }
 
     @Override
-    public Filter getFilter() {
+    public android.widget.Filter getFilter() {
         return exampleSearch;
     }
 
-    private Filter exampleSearch = new Filter() {
+    private android.widget.Filter exampleSearch = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Model> filteredList = new ArrayList<>();
@@ -91,8 +91,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
         }
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            payment_list.clear();
-            payment_list.addAll((List) results.values);
+            table_list.clear();
+            table_list.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };

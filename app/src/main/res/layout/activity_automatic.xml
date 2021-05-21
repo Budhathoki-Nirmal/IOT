@@ -7,168 +7,157 @@
     tools:context=".Automatic">
 
 
-    <org.florescu.android.rangeseekbar.RangeSeekBar
-        android:id="@+id/rangeTemperature"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="431dp" />
+        android:layout_height="match_parent"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp">
 
-    <org.florescu.android.rangeseekbar.RangeSeekBar
-        android:id="@+id/rangeHumidity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="338dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="16dp"
+            android:background="@drawable/borderl_layout"
+            android:orientation="vertical">
 
-    <org.florescu.android.rangeseekbar.RangeSeekBar
-        android:id="@+id/rangeMoisture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="223dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnApply"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="160dp"
-        android:layout_marginEnd="163dp"
-        android:layout_marginRight="163dp"
-        android:layout_marginBottom="149dp"
-        android:text="apply" />
+                <TextView
+                    android:layout_width="125dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="Temperature"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/textViewThresholdTemperature"
-        android:layout_width="125dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="144dp"
-        android:layout_marginEnd="142dp"
-        android:layout_marginRight="142dp"
-        android:layout_marginBottom="498dp"
-        android:gravity="center"
-        android:text="Temperature"
-        android:textSize="18dp" />
+                <org.florescu.android.rangeseekbar.RangeSeekBar
+                    android:id="@+id/rangeTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textViewThresholdHumidity"
-        android:layout_width="122dp"
-        android:layout_height="42dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="146dp"
-        android:layout_marginEnd="144dp"
-        android:layout_marginRight="144dp"
-        android:layout_marginBottom="386dp"
-        android:gravity="center"
-        android:text="Humidity"
-        android:textSize="18dp" />
+                    <TextView
+                        android:id="@+id/textViewLowTemperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/textViewHighTemperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/textViewThresholdMoisture"
-        android:layout_width="142dp"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginBottom="281dp"
-        android:gravity="center"
-        android:text="Soil Moisture"
-        android:textSize="18dp" />
+                </LinearLayout>
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/textViewLowTemperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="324dp"
-        android:layout_marginRight="324dp"
-        android:layout_marginBottom="463dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textViewLowHumidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="323dp"
-        android:layout_marginRight="323dp"
-        android:layout_marginBottom="375dp" />
+                <TextView
+                    android:layout_width="122dp"
+                    android:layout_height="42dp"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Humidity"
+                    android:textSize="18dp"
+                    android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/textViewLowMoisture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="323dp"
-        android:layout_marginRight="323dp"
-        android:layout_marginBottom="261dp" />
+                <org.florescu.android.rangeseekbar.RangeSeekBar
+                    android:id="@+id/rangeHumidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/textViewHighTemperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="464dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textViewHighHumidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="376dp" />
+                    <TextView
+                        android:id="@+id/textViewLowHumidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/textViewHighHumidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/textViewHighMoisture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="262dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="142dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Soil Moisture"
+                    android:textSize="18dp"
+                    android:textStyle="bold"/>
+
+                <org.florescu.android.rangeseekbar.RangeSeekBar
+                    android:id="@+id/rangeMoisture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewLowMoisture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/textViewHighMoisture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnApply"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingTop="5dp"
+                android:layout_gravity="center_horizontal"
+                android:text="apply" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 
 </RelativeLayout>
