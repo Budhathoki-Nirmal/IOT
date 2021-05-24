@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_200"
-    tools:context=".Addplant">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/teal_200">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -32,7 +29,7 @@
 
             <EditText
                 android:layout_marginTop="15dp"
-                android:id="@+id/edit_plantName"
+                android:id="@+id/uedit_plantName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Plant Name"/>
@@ -51,7 +48,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
                 <NumberPicker
-                    android:id="@+id/npTempMin"
+                    android:id="@+id/unpTempMin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Space
@@ -67,7 +64,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
                 <NumberPicker
-                    android:id="@+id/npTempMax"
+                    android:id="@+id/unpTempMax"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -87,7 +84,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
                 <NumberPicker
-                    android:id="@+id/npHumMin"
+                    android:id="@+id/unpHumMin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Space
@@ -103,7 +100,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
                 <NumberPicker
-                    android:id="@+id/npHumMax"
+                    android:id="@+id/unpHumMax"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -123,7 +120,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
                 <NumberPicker
-                    android:id="@+id/npMoistMin"
+                    android:id="@+id/unpMoistMin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Space
@@ -139,42 +136,18 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
                 <NumberPicker
-                    android:id="@+id/npMoistMax"
+                    android:id="@+id/unpMoistMax"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/updateBtn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-                <Button
-                    android:id="@+id/cancelBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:text="Cancel"/>
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-                <Button
-                    android:id="@+id/addBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:text="ADD"/>
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="Update"/>
 
 
         </LinearLayout>

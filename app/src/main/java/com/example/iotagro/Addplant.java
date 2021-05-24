@@ -9,17 +9,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 
 public class Addplant extends AppCompatActivity {
-    Button saveBtn;
+    Button addBtn,cancelBtn;
     EditText edit_plantName;
     NumberPicker npTempMin,npTempMax,npHumMin,npHumMax,npMoistMin,npMoistMax;
 
@@ -38,7 +42,8 @@ public class Addplant extends AppCompatActivity {
         npHumMax=findViewById(R.id.npHumMax);
         npMoistMin=findViewById(R.id.npMoistMin);
         npMoistMax=findViewById(R.id.npMoistMax);
-        saveBtn=findViewById(R.id.saveBtn);
+        addBtn=findViewById(R.id.addBtn);
+        cancelBtn=findViewById(R.id.cancelBtn);
 
         npTempMin.setMaxValue(0);
         npTempMin.setMaxValue(100);
@@ -53,10 +58,15 @@ public class Addplant extends AppCompatActivity {
         npMoistMax.setMaxValue(0);
         npMoistMax.setMaxValue(100);
 
+        cancelBtn.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(),Information.class));
+            finish();
+        });
+
         mDatabase=FirebaseDatabase.getInstance();
         ref=mDatabase.getReference().child("PlantInfo").push();
 
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String pName=edit_plantName.getText().toString();
@@ -68,24 +78,31 @@ public class Addplant extends AppCompatActivity {
                 String moistMax=String.valueOf(npMoistMax.getValue());
 
                 HashMap<String,Object> map = new HashMap<>();
-                map.put("Plant",pName);
-                map.put("Min Temp",tempMin);
-                map.put("Max Temp",tempMax);
-                map.put("Min Hum",humMin);
-                map.put("Max Hum",humMax);
-                map.put("Min Moist",moistMin);
-                map.put("Max Moist",moistMax);
+                map.put("plant",pName);
+                map.put("min_temp",tempMin);
+                map.put("max_temp",tempMax);
+                map.put("min_hum",humMin);
+                map.put("max_hum",humMax);
+                map.put("min_moist",moistMin);
+                map.put("max_moist",moistMax);
 
-                ref.setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                ref.setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Intent intent=new Intent(Addplant.this,Information.class);
-                        startActivity(intent);
+                    public void onSuccess(Void unused) {
+                        edit_plantName.setText("");
+                        npTempMin.setValue(0);
+                        npTempMax.setValue(100);
+                        npHumMin.setValue(0);
+                        npHumMax.setValue(100);
+                        npMoistMin.setValue(0);
+                        npMoistMax.setValue(100);
+                        Toast.makeText(getApplicationContext(),"Added Successfully",Toast.LENGTH_LONG).show();
                     }
+
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Toast.makeText(getApplicationContext(),"Failed to add",Toast.LENGTH_LONG).show();
                     }
                 });
 
