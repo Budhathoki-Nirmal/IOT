@@ -27,10 +27,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
 public class Automatic extends AppCompatActivity {
+    TextView t1,t2,t3,h1,h2,h3,m1,m2,m3;
     Button btnApply;
     TextView textViewHighTemperature,textViewLowTemperature,textViewHighHumidity,textViewLowHumidity,textViewHighMoisture,textViewLowMoisture;
 //    SeekBar seekBarTemp,seekBarHum,seekBarMoist;
@@ -56,12 +58,41 @@ public class Automatic extends AppCompatActivity {
         rangeHumidity=findViewById(R.id.rangeHumidity);
         rangeMoisture=findViewById(R.id.rangeMoisture);
 
+        t1=findViewById(R.id.tvT1);
+        t2=findViewById(R.id.tvT2);
+        h1=findViewById(R.id.tvH1);
+        h2=findViewById(R.id.tvH2);
+        m1=findViewById(R.id.tvM1);
+        m2=findViewById(R.id.tvM2);
+
+
+        mDatabase=FirebaseDatabase.getInstance();
+        ref=mDatabase.getReference().child("Threshold");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot datasnapshot) {
+                t1.setText(datasnapshot.child("Low_Temperature").getValue().toString()+" \u2103");
+                t2.setText(datasnapshot.child("High_Temperature").getValue().toString()+" \u2103");
+                h1.setText(datasnapshot.child("Low_Humidity").getValue().toString()+" %");
+                h2.setText(datasnapshot.child("High_Humidity").getValue().toString()+" %");
+                m1.setText(datasnapshot.child("Low_Soil_Moisture").getValue().toString()+" %");
+                m2.setText(datasnapshot.child("High_Soil_Moisture").getValue().toString()+" %");
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
         rangeTemperature.setSelectedMaxValue(100);
         rangeTemperature.setSelectedMinValue(0);
         rangeHumidity.setSelectedMaxValue(100);
         rangeHumidity.setSelectedMinValue(0);
         rangeMoisture.setSelectedMaxValue(100);
         rangeMoisture.setSelectedMinValue(0);
+
+
 
         rangeTemperature.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
@@ -99,9 +130,6 @@ public class Automatic extends AppCompatActivity {
             }
         });
 
-        mDatabase=FirebaseDatabase.getInstance();
-        ref=mDatabase.getReference().child("Threshold");
-
 
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +154,7 @@ public class Automatic extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText(Automatic.this,"Completed",Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(Automatic.this,MainActivity.class);
+                            Intent intent=new Intent(Automatic.this,Setting.class);
                             startActivity(intent);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
