@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase mDatabase;
     DatabaseReference ref;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +41,12 @@ public class MainActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     String t1 = dataSnapshot.child("Temperature").getValue().toString();
                     String t2 = dataSnapshot.child("Humidity").getValue().toString();
                     String t3 = dataSnapshot.child("Moisture").getValue().toString();
                     tv1.setText("" + t1+" \u2103");
                     tv2.setText("" + t2+" %");
                     tv3.setText("" + t3+" %");
-//                }
             }
 
             @Override
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         cardTable=(CardView) findViewById(R.id.cardTable);
         cardTable.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { openActivity1();
+            public void onClick(View v) {
+
+                openActivity1();
             }
         });
 

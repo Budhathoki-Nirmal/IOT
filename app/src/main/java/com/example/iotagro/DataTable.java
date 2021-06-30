@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -32,12 +34,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class DataTable extends AppCompatActivity{
@@ -45,10 +52,21 @@ public class DataTable extends AppCompatActivity{
     TableAdapter adapter;
     List<Model> list;
     LinearLayoutManager manager;
-//    EditText eT1;
-//    DatePickerDialog.OnDateSetListener mDateSetListener;
-//    private static final String TAG = "DAtaTable";
 
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    LayoutInflater layoutInflater;
+    AlertDialog builderAlert;
+    View showFilter;
+
+    Calendar calendar = Calendar.getInstance();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", new Locale("eng", "NEP"));
+    Context context;
+
+
+    Button dateStart,dateEnd,filterApply;
+    EditText inputMinimum,inputMaximum;
+    Date date_minimum;
+    Date date_maximum;
 
 
     @Override
@@ -56,20 +74,17 @@ public class DataTable extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_table);
 
-
+        context=this;
         recycler_view=findViewById(R.id.recycler_view);
         manager=new LinearLayoutManager(this);
         list=new ArrayList<>();
         recycler_view.setLayoutManager(manager);
         FetchData();
 
-
-
     }
 
     private void FetchData() {
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-        reference.child("DHT11Database")
+        database.child("DHT11Database")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -83,13 +98,13 @@ public class DataTable extends AppCompatActivity{
                         Collections.reverse(list);
                         adapter=new TableAdapter(DataTable.this,list);
                         recycler_view.setAdapter(adapter);
-//
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
+
     }
 
 
@@ -116,77 +131,91 @@ public class DataTable extends AppCompatActivity{
                 }
             });
         }
-        else if(item.getItemId()==R.id.action_filter){
-            Intent intent = new Intent(DataTable.this, Filter.class);
-            startActivity(intent);
+        else if(item.getItemId()==R.id.action_filter) {
 
-//            Button btnDate;
-//            Filter_Dialog fDialog = new Filter_Dialog();
-//            fDialog.show(getSupportFragmentManager(), "Filter Dialog");
-//            AlertDialog.Builder builder=new AlertDialog.Builder(DataTable.this, R.style.AlertDialogTheme);
-//            final View filter_dialog=getLayoutInflater().inflate(R.layout.filter_dialog,null);
-//            builder.setTitle("Select One");
-
-//            final String[] listItems= new String[]{
-//                    "Date",
-//                    "Temperature",
-//                    "Humidity",
-//                    "Soil Moisture"
-//            };
-//
-//            builder.setSingleChoiceItems(listItems, 0, new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//
-//                }
-//            });
-//            btnDate=findViewById(R.id.btn_minimal);
-//            btnDate.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Calendar cal = Calendar.getInstance();
-//                    int year = cal.get(Calendar.YEAR);
-//                    int month = cal.get(Calendar.MONTH);
-//                    int day = cal.get(Calendar.DAY_OF_MONTH);
-//
-//                    DatePickerDialog dialog = new DatePickerDialog(
-//                            DataTable.this,
-//                            android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-//                            mDateSetListener,
-//                            year,month,day);
-//                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                    dialog.show();
-//                }
-//            });
-//
-//            mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-//                @Override
-//                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-//                    month = month + 1;
-//                    Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
-//
-//                    String date = month + "/" + day + "/" + year;
-//                    eT1.setText(date);
-//                }
-//            };
-//            builder.setView(filter_dialog);
-//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.cancel();
-//                }
-//            });
-//            AlertDialog dialog=builder.create();
-//            dialog.show();
+            filter();
         }
 
         return super.onOptionsItemSelected(item);
+
+    }
+
+    private void filter() {
+        builderAlert = new AlertDialog.Builder(this).create();
+        layoutInflater = getLayoutInflater();
+        showFilter = layoutInflater.inflate(R.layout.filter_dialog, null);
+        builderAlert.setView(showFilter);
+
+        inputMinimum=showFilter.findViewById(R.id.input_minimum);
+        inputMaximum=showFilter.findViewById(R.id.input_maximum);
+        dateStart=showFilter.findViewById(R.id.btnDateStart);
+        dateEnd=showFilter.findViewById(R.id.btnDateEnd);
+        filterApply=showFilter.findViewById(R.id.btnFilterApply);
+
+        builderAlert.show();
+
+        dateStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        calendar.set(year,month,dayOfMonth);
+                        inputMinimum.setText(simpleDateFormat.format(calendar.getTime()));
+                        date_minimum = calendar.getTime();
+
+                        String input1 = inputMinimum.getText().toString();
+                        String input2 = inputMaximum.getText().toString();
+                        if (input1.isEmpty() && input2.isEmpty()) {
+                            filterApply.setEnabled(false);
+                        } else {
+                            filterApply.setEnabled(true);
+                        }
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        dateEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        calendar.set(year,month,dayOfMonth);
+                        inputMaximum.setText(simpleDateFormat.format(calendar.getTime()));
+                        date_maximum = calendar.getTime();
+
+                        String input1 = inputMinimum.getText().toString();
+                        String input2 = inputMaximum.getText().toString();
+                        if (input1.isEmpty() && input2.isEmpty()) {
+                            filterApply.setEnabled(false);
+                        } else {
+                            filterApply.setEnabled(true);
+                        }
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+
+        filterApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builderAlert.dismiss();
+                String Start=inputMinimum.getText().toString().trim();
+                String End=inputMaximum.getText().toString().trim();
+                try{
+                    Date strDate=simpleDateFormat.parse(Start);
+                    Date endDate=simpleDateFormat.parse(End);
+                    assert strDate != null;
+                    adapter.filterDateRange(strDate,endDate);
+                }catch (ParseException e){
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
     }
 

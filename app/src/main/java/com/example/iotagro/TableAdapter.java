@@ -11,14 +11,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>implements Filterable {
 
     Context context;
     List<Model> table_list;
     List<Model> search_list;
+    List<Model> filter_list;
+    
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView date_tv,temp_tv,hum_tv,soil_tv;
@@ -37,12 +43,13 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>i
         this.context = context;
         this.table_list=table_list;
         search_list=new ArrayList<>(table_list);
+        filter_list=new ArrayList<>(table_list);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.item_layout,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout,parent,false);
         return new ViewHolder(view);
     }
 
@@ -65,6 +72,36 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>i
     public int getItemCount() {
         return table_list.size();
     }
+
+
+    public void filterDateRange(Date charText,Date charText1) {
+        List<Model> rangedList = new ArrayList<>();
+        if (charText.equals("")|| charText == null) {
+            rangedList.addAll(filter_list);
+        } else {
+            for (Model wp : filter_list) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy",new Locale("eng", "NEP"));
+                try {
+                    Date strDate = sdf.parse(wp.getDate());
+                    if (charText1.after(strDate)&&charText.before(strDate)) {
+                        rangedList.add(wp);
+                    }else{
+
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+        table_list.clear();
+        table_list.addAll((List) rangedList);
+        notifyDataSetChanged();
+    };
+
+
+
 
     @Override
     public android.widget.Filter getFilter() {
@@ -96,4 +133,5 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>i
             notifyDataSetChanged();
         }
     };
+
 }

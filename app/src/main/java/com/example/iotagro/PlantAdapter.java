@@ -154,36 +154,6 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant, PlantAdapter.Vi
             builder.show();
         });
 
-
-//        holder.edit_Btn.setOnClickListener(v -> {
-//            final DialogPlus dialogPlus = DialogPlus.newDialog(holder.plant_name.getContext())
-//                    .setContentHolder(new ViewHolder(R.layout.content))
-//                    .setExpanded(true)
-//                    .create();
-//
-//            View updateView=dialogPlus.getHolderView();
-//            final EditText plant_name=updateView.findViewById(R.id.uedit_plantName);
-//            final EditText Min_T=updateView.findViewById(R.id.unpTempMin);
-//            final EditText Max_T=updateView.findViewById(R.id.unpTempMax);
-//            final EditText Min_H=updateView.findViewById(R.id.unpHumMin);
-//            final EditText Max_H=updateView.findViewById(R.id.unpHumMax);
-//            final EditText Min_M=updateView.findViewById(R.id.unpMoistMin);
-//            final EditText Max_M=updateView.findViewById(R.id.unpMoistMax);
-//            Button update=updateView.findViewById(R.id.updateBtn);
-//
-//            plant_name.setText(plant.getPlant());
-//            Min_T.setText(plant.getMin_temp());
-//            Max_T.setText(plant.getMax_temp());
-//            Min_H.setText(plant.getMin_hum());
-//            Max_H.setText(plant.getMax_hum());
-//            Min_M.setText(plant.getMin_moist());
-//            Max_M.setText(plant.getMax_moist());
-//
-//            dialogPlus.show();
-//
-//
-//
-//        });
     }
     @NonNull
     @Override
@@ -214,81 +184,4 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant, PlantAdapter.Vi
         }
 
     }
-
-
 }
-//    setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//            FirebaseDatabase.getInstance().getReference()
-//                    .child("PlantInfo")
-//                    .child(getRef(i).getKey())
-//                    .setValue(null)
-//                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//
-//                        }
-//                    });
-//        }
-//    });
-
-//public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.MyViewHolder>{
-//
-//    Context context;
-//    List<Plant> plantArrayList;
-//
-//    public PlantAdapter(Context context, List<Plant> plantArrayList) {
-//        this.context = context;
-//        this.plantArrayList = plantArrayList;
-//    }
-//
-//    @NonNull
-//    @Override
-//    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View v= LayoutInflater.from(context).inflate(R.layout.info_layout,parent,false);
-//        return new MyViewHolder(v);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-//        Plant plant = plantArrayList.get(position);
-//        holder.plant_name.setText(plant.getName());
-//        holder.Min_T.setText(plant.getTempMin());
-//        holder.Max_T.setText(plant.getTempMax());
-//        holder.Min_H.setText(plant.getHumMin());
-//        holder.Max_H.setText(plant.getHumMax());
-//        holder.Min_M.setText(plant.getMoistMin());
-//        holder.Max_M.setText(plant.getMoistMax());
-////        holder.delete_Btn.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                FirebaseDatabase.getInstance().getReference()
-////                        .child("PlantInfo")
-////                        .child(get(position).getKey())
-////            }
-////        });
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return plantArrayList.size();
-//    }
-//
-//    public static class MyViewHolder extends RecyclerView.ViewHolder{
-//        TextView plant_name,Min_T,Max_T,Min_H,Max_H,Min_M,Max_M;
-//        Button delete_Btn;
-//        public MyViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            plant_name=itemView.findViewById(R.id.plant_name);
-//            Min_T=itemView.findViewById(R.id.Min_T);
-//            Max_T=itemView.findViewById(R.id.Max_T);
-//            Min_H=itemView.findViewById(R.id.Min_H);
-//            Max_H=itemView.findViewById(R.id.Max_H);
-//            Min_M=itemView.findViewById(R.id.Min_M);
-//            Max_M=itemView.findViewById(R.id.Max_M);
-//            delete_Btn=itemView.findViewById(R.id.delete_Btn);
-//        }
-//    }
-//
-//}

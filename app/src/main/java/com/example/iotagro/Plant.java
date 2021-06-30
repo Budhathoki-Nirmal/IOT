@@ -1,7 +1,5 @@
 package com.example.iotagro;
 
-import org.jetbrains.annotations.NotNull;
-
 public class Plant {
 
     String max_hum,max_moist,max_temp,min_hum,min_moist,min_temp,plant;
