@@ -25,7 +25,7 @@ class DiseasePlant : AppCompatActivity() {
     private val mGalleryRequestCode = 2
 
     private val mInputSize = 224
-    private val mModelPath = "diseaseModel.tflite"
+    private val mModelPath = "plant_disease_model.tflite"
     private val mLabelPath = "plant_labels.txt"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

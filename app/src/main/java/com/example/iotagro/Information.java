@@ -54,55 +54,6 @@ public class Information extends AppCompatActivity {
         adapter.stopListening();
     }
 
-//public class Information extends AppCompatActivity {
-//    RecyclerView recyclerView;
-//    PlantAdapter plantAdapter;
-//    List<Plant> plantList;
-//    Plant plant;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_information);
-//        recyclerView=findViewById(R.id.plant_list);
-//
-//        plantList=new ArrayList<Plant>();
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//
-//        FetchData();
-//
-//
-//
-//    }
-//
-//    private void FetchData() {
-//        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-//        reference.child("PlantInfo")
-//                .addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                            String Name=dataSnapshot.child("Plant").getValue().toString();
-//                            String tMin=dataSnapshot.child("Min Temp").getValue().toString();
-//                            String tMax=dataSnapshot.child("Max Temp").getValue().toString();
-//                            String hMin=dataSnapshot.child("Min Hum").getValue().toString();
-//                            String hMax=dataSnapshot.child("Max Hum").getValue().toString();
-//                            String mMin=dataSnapshot.child("Min Moist").getValue().toString();
-//                            String mMax=dataSnapshot.child("Max Moist").getValue().toString();
-//                            plantList.add(new Plant(Name,tMin,tMax,hMin,hMax,mMin,mMax));
-//                        }
-//                        plantAdapter = new PlantAdapter(Information.this, plantList);
-//                        recyclerView.setAdapter(plantAdapter);
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-//
-//    }
 
 
     @Override
