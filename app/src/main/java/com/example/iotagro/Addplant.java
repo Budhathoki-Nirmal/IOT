@@ -30,10 +30,13 @@ public class Addplant extends AppCompatActivity {
     FirebaseDatabase mDatabase;
     DatabaseReference ref;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addplant);
+        mDatabase=FirebaseDatabase.getInstance();
+        ref=mDatabase.getReference().child("PlantInfo").push();
 
         edit_plantName=findViewById(R.id.edit_plantName);
         npTempMin=findViewById(R.id.npTempMin);
@@ -45,27 +48,23 @@ public class Addplant extends AppCompatActivity {
         addBtn=findViewById(R.id.addBtn);
         cancelBtn=findViewById(R.id.cancelBtn);
 
-        npTempMin.setMaxValue(0);
+        npTempMin.setMinValue(0);
         npTempMin.setMaxValue(100);
-        npTempMax.setMaxValue(0);
+        npTempMax.setMinValue(0);
         npTempMax.setMaxValue(100);
-        npHumMin.setMaxValue(0);
+        npHumMin.setMinValue(0);
         npHumMin.setMaxValue(100);
-        npHumMax.setMaxValue(0);
+        npHumMax.setMinValue(0);
         npHumMax.setMaxValue(100);
-        npMoistMin.setMaxValue(0);
+        npMoistMin.setMinValue(0);
         npMoistMin.setMaxValue(100);
-        npMoistMax.setMaxValue(0);
+        npMoistMax.setMinValue(0);
         npMoistMax.setMaxValue(100);
 
         cancelBtn.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(),Information.class));
             finish();
         });
-
-        mDatabase=FirebaseDatabase.getInstance();
-        ref=mDatabase.getReference().child("PlantInfo").push();
-
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,34 +76,41 @@ public class Addplant extends AppCompatActivity {
                 String moistMin=String.valueOf(npMoistMin.getValue());
                 String moistMax=String.valueOf(npMoistMax.getValue());
 
-                HashMap<String,Object> map = new HashMap<>();
-                map.put("plant",pName);
-                map.put("min_temp",tempMin);
-                map.put("max_temp",tempMax);
-                map.put("min_hum",humMin);
-                map.put("max_hum",humMax);
-                map.put("min_moist",moistMin);
-                map.put("max_moist",moistMax);
+                if(Integer.parseInt(tempMin)<Integer.parseInt(tempMax)&&Integer.parseInt(humMin)<Integer.parseInt(humMax)&&Integer.parseInt(moistMin)<Integer.parseInt(moistMax)) {
 
-                ref.setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        edit_plantName.setText("");
-                        npTempMin.setValue(0);
-                        npTempMax.setValue(100);
-                        npHumMin.setValue(0);
-                        npHumMax.setValue(100);
-                        npMoistMin.setValue(0);
-                        npMoistMax.setValue(100);
-                        Toast.makeText(getApplicationContext(),"Added Successfully",Toast.LENGTH_LONG).show();
-                    }
 
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Toast.makeText(getApplicationContext(),"Failed to add",Toast.LENGTH_LONG).show();
-                    }
-                });
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("plant", pName);
+                    map.put("min_temp", tempMin);
+                    map.put("max_temp", tempMax);
+                    map.put("min_hum", humMin);
+                    map.put("max_hum", humMax);
+                    map.put("min_moist", moistMin);
+                    map.put("max_moist", moistMax);
+
+                    ref.setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            edit_plantName.setText("");
+                            npTempMin.setValue(0);
+                            npTempMax.setValue(100);
+                            npHumMin.setValue(0);
+                            npHumMax.setValue(100);
+                            npMoistMin.setValue(0);
+                            npMoistMax.setValue(100);
+                            Toast.makeText(getApplicationContext(), "Added Successfully", Toast.LENGTH_LONG).show();
+                        }
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull @NotNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Failed to add", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }else
+                {
+                    Toast.makeText(getApplicationContext(), "Max value must be greater than Min value", Toast.LENGTH_LONG).show();
+                }
 
             }
         });

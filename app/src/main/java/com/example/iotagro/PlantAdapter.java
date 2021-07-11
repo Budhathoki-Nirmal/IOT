@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,17 +69,17 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant, PlantAdapter.Vi
                 final NumberPicker Max_M=updateView.findViewById(R.id.unpMoistMax);
                 Button update=updateView.findViewById(R.id.updateBtn);
 
-                Min_T.setMaxValue(0);
+                Min_T.setMinValue(0);
                 Min_T.setMaxValue(100);
-                Max_T.setMaxValue(0);
+                Max_T.setMinValue(0);
                 Max_T.setMaxValue(100);
-                Min_H.setMaxValue(0);
+                Min_H.setMinValue(0);
                 Min_H.setMaxValue(100);
-                Max_H.setMaxValue(0);
+                Max_H.setMinValue(0);
                 Max_H.setMaxValue(100);
-                Min_M.setMaxValue(0);
+                Min_M.setMinValue(0);
                 Min_M.setMaxValue(100);
-                Max_M.setMaxValue(0);
+                Max_M.setMinValue(0);
                 Max_M.setMaxValue(100);
 
                 int t1=Integer.parseInt(plant.getMin_temp());
@@ -99,25 +100,30 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant, PlantAdapter.Vi
                 update.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Map<String, Object> map=new HashMap<>();
-                        map.put("plant",plant_name.getText().toString());
-                        map.put("min_temp",String.valueOf(Min_T.getValue()));
-                        map.put("max_temp",String.valueOf(Max_T.getValue()));
-                        map.put("min_hum",String.valueOf(Min_H.getValue()));
-                        map.put("max_hum",String.valueOf(Max_H.getValue()));
-                        map.put("min_moist",String.valueOf(Min_M.getValue()));
-                        map.put("max_moist",String.valueOf(Max_M.getValue()));
+                        if(Min_T.getValue()<Max_T.getValue()&&Min_H.getValue()<Max_H.getValue()&&Min_M.getValue()<Max_M.getValue()) {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("plant", plant_name.getText().toString());
+                            map.put("min_temp", String.valueOf(Min_T.getValue()));
+                            map.put("max_temp", String.valueOf(Max_T.getValue()));
+                            map.put("min_hum", String.valueOf(Min_H.getValue()));
+                            map.put("max_hum", String.valueOf(Max_H.getValue()));
+                            map.put("min_moist", String.valueOf(Min_M.getValue()));
+                            map.put("max_moist", String.valueOf(Max_M.getValue()));
 
-                        FirebaseDatabase.getInstance().getReference()
-                                .child("PlantInfo")
-                                .child(getRef(i).getKey())
-                                .updateChildren(map)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull @NotNull Task<Void> task) {
-                                        dialogplus.dismiss();
-                                    }
-                                });
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("PlantInfo")
+                                    .child(getRef(i).getKey())
+                                    .updateChildren(map)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                            dialogplus.dismiss();
+                                        }
+                                    });
+                        }
+                        else{
+                            Toast.makeText(context.getApplicationContext(), "Max value must be greater than Min value", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 

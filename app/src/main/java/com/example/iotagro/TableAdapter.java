@@ -27,11 +27,12 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>i
     
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView date_tv,temp_tv,hum_tv,soil_tv;
+        TextView date_tv,time_tv,temp_tv,hum_tv,soil_tv;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             date_tv=itemView.findViewById(R.id.date_tv);
+            time_tv=itemView.findViewById(R.id.time_tv);
             temp_tv=itemView.findViewById(R.id.temp_tv);
             hum_tv=itemView.findViewById(R.id.hum_tv);
             soil_tv=itemView.findViewById(R.id.soil_tv);
@@ -58,6 +59,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>i
         if (table_list!=null && table_list.size()>0){
             Model model=table_list.get(position);
             holder.date_tv.setText(model.getDate());
+            holder.time_tv.setText(model.getTime());
             holder.temp_tv.setText(model.getTemp());
             holder.hum_tv.setText(model.getHum());
             holder.soil_tv.setText(model.getSoil());

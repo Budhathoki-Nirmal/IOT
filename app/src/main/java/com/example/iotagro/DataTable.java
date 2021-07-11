@@ -90,10 +90,11 @@ public class DataTable extends AppCompatActivity{
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                             String Date=snapshot.child("_Date").getValue().toString();
+                            String Time=snapshot.child("_Time").getValue().toString();
                             String Temperature= snapshot.child("_Temperature").getValue().toString();
                             String Humidity=snapshot.child("_Humidity").getValue().toString();
                             String Soil_Moisture=snapshot.child("_Moisture").getValue().toString();
-                            list.add(new Model(Date,Temperature,Humidity,Soil_Moisture));
+                            list.add(new Model(Date,Time,Temperature,Humidity,Soil_Moisture));
                         }
                         Collections.reverse(list);
                         adapter=new TableAdapter(DataTable.this,list);

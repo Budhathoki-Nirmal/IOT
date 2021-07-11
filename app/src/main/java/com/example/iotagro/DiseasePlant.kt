@@ -13,6 +13,9 @@ import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Gravity
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_disease_plant.*
 import kotlinx.android.synthetic.main.activity_main.*;
 import java.io.IOException
@@ -32,14 +35,18 @@ class DiseasePlant : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_disease_plant)
         mClassifier = Classifier(assets, mModelPath, mLabelPath, mInputSize)
-
+//        val mCameraButton=findViewById<Button>(R.id.mCameraButton)
+//        val mGalleryButton=findViewById<Button>(R.id.mGalleryButton)
+//        val mDetectButton=findViewById<Button>(R.id.mDetectButton)
+//        val mPhotoImageView=findViewById<ImageView>(R.id.mPhotoImageView)
+//        val mResultTextView=findViewById<TextView>(R.id.mResultTextView)
         mCameraButton.setOnClickListener {
             val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(callCameraIntent, mCameraRequestCode)
         }
 
         mGalleryButton.setOnClickListener {
-            val callGalleryIntent = Intent(Intent.ACTION_GET_CONTENT)
+            val callGalleryIntent = Intent(Intent.ACTION_PICK)
             callGalleryIntent.type = "image/*"
             startActivityForResult(callGalleryIntent, mGalleryRequestCode)
         }
