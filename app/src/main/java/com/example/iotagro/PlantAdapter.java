@@ -3,6 +3,8 @@ package com.example.iotagro;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,19 +21,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class PlantAdapter extends FirebaseRecyclerAdapter<Plant, PlantAdapter.ViewHolder> {
+    FirebaseDatabase mDatabase;
+    DatabaseReference ref;
+    int t1,t2,h1,h2,m1,m2;
     Context context;
+    private int lastPosition = -1;
+    int row_index = -1;
 
     public PlantAdapter(@NonNull FirebaseRecyclerOptions<Plant> options,Context context) {
         super(options);
@@ -133,7 +147,13 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant, PlantAdapter.Vi
             }
         });
 
-
+        int tH,tL,hH,hL,mH,mL;
+        tH=Integer.parseInt(holder.Max_T.getText().toString());
+        tL=Integer.parseInt(holder.Min_T.getText().toString());
+        hH=Integer.parseInt(holder.Max_H.getText().toString());
+        hL=Integer.parseInt(holder.Min_H.getText().toString());
+        mH=Integer.parseInt(holder.Max_M.getText().toString());
+        mL=Integer.parseInt(holder.Min_M.getText().toString());
 
         holder.delete_Btn.setOnClickListener(v -> {
             AlertDialog.Builder builder=new AlertDialog.Builder(holder.plant_name.getContext());
@@ -159,6 +179,69 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant, PlantAdapter.Vi
             });
             builder.show();
         });
+        holder.select_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                row_index=i;
+                notifyDataSetChanged();
+                mDatabase=FirebaseDatabase.getInstance();
+                ref=mDatabase.getReference().child("Threshold");
+
+
+                HashMap<String,Object> map = new HashMap<>();
+                map.put("High_Temperature",tH);
+                map.put("High_Humidity",hH);
+                map.put("High_Soil_Moisture",mH);
+                map.put("Low_Temperature",tL);
+                map.put("Low_Humidity",hL);
+                map.put("Low_Soil_Moisture",mL);
+                    ref.setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(context.getApplicationContext(),"Completed",Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context.getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            }
+
+        });
+        mDatabase=FirebaseDatabase.getInstance();
+        ref=mDatabase.getReference().child("Threshold");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                t1 = Integer.parseInt(dataSnapshot.child("Low_Temperature").getValue().toString());
+                t2 = Integer.parseInt(dataSnapshot.child("High_Temperature").getValue().toString());
+                h1 = Integer.parseInt(dataSnapshot.child("Low_Humidity").getValue().toString());
+                h2 = Integer.parseInt(dataSnapshot.child("High_Humidity").getValue().toString());
+                m1 = Integer.parseInt(dataSnapshot.child("Low_Soil_Moisture").getValue().toString());
+                m2 = Integer.parseInt(dataSnapshot.child("High_Soil_Moisture").getValue().toString());
+
+                if(t1==tL&&t2==tH&&h1==hL&&h2==hH&&m1==mL&&m2==mH){
+                    holder.select_Btn.setBackgroundColor(Color.GREEN);
+                    holder.select_Btn.setText("SELECTED");
+                }else{
+                    holder.select_Btn.setBackgroundColor(Color.parseColor("#DFD1D1"));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        if (row_index==i) {
+            holder.select_Btn.setBackgroundColor(Color.GREEN);
+            holder.select_Btn.setText("SELECTED");
+        } else {
+            holder.select_Btn.setBackgroundColor(Color.parseColor("#DFD1D1"));
+        }
 
     }
     @NonNull
@@ -172,7 +255,7 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant, PlantAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView plant_name,Min_T,Max_T,Min_H,Max_H,Min_M,Max_M;
-        Button delete_Btn,edit_Btn;
+        Button delete_Btn,edit_Btn,select_Btn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -185,9 +268,9 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant, PlantAdapter.Vi
             Max_M=itemView.findViewById(R.id.Max_M);
             delete_Btn=itemView.findViewById(R.id.delete_Btn);
             edit_Btn=itemView.findViewById(R.id.edit_Btn);
+            select_Btn=itemView.findViewById(R.id.select_Btn);
 
 
         }
-
     }
 }

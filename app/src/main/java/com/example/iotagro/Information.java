@@ -41,6 +41,7 @@ public class Information extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
+
     }
     @Override
     protected void onStart() {

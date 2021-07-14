@@ -83,18 +83,23 @@ public class DataTable extends AppCompatActivity{
 
     }
 
+
     private void FetchData() {
         database.child("DHT11Database")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                            String Date=snapshot.child("_Date").getValue().toString();
-                            String Time=snapshot.child("_Time").getValue().toString();
-                            String Temperature= snapshot.child("_Temperature").getValue().toString();
-                            String Humidity=snapshot.child("_Humidity").getValue().toString();
-                            String Soil_Moisture=snapshot.child("_Moisture").getValue().toString();
-                            list.add(new Model(Date,Time,Temperature,Humidity,Soil_Moisture));
+                            try {
+                                String Date = snapshot.child("_Date").getValue().toString();
+                                String Time = snapshot.child("_Time").getValue().toString();
+                                String Temperature = snapshot.child("_Temperature").getValue().toString();
+                                String Humidity = snapshot.child("_Humidity").getValue().toString();
+                                String Soil_Moisture = snapshot.child("_Moisture").getValue().toString();
+                                list.add(new Model(Date, Time, Temperature, Humidity, Soil_Moisture));
+                            }catch (Exception e){
+                                Toast.makeText(DataTable.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
                         }
                         Collections.reverse(list);
                         adapter=new TableAdapter(DataTable.this,list);
